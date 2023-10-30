@@ -1,43 +1,45 @@
 package com.esprit.dhiaaissa4sim1.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.*;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
-import java.io.Serializable;
 import java.util.Date;
+
+@Slf4j
+@Service
+@Setter
+@Getter
 @Entity
-public class Reservation implements Serializable {
+@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@EqualsAndHashCode
+@ToString
+
+public class Reservation {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NonNull
     private long idReservation;
-    private Date anneUniversitaire;
+    @NonNull
+    private Date anneeUniversitaire;
+    @NonNull
     private boolean estValide;
+
+    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "chambre_id")
-    private Chambre chambre;
+    @JoinColumn(name = "idEtudiant") // Clé étrangère vers la table Etudiant
+    private Etudiant etudiant;
 
-
-    public Date getAnneUniversitaire() {
-        return anneUniversitaire;
-    }
-
-    public boolean isEstValide() {
-        return estValide;
-    }
-
-    public long getIdReservation() {
-        return idReservation;
-    }
-
-
-    public void setAnneUniversitaire(Date anneUniversitaire) {
-        this.anneUniversitaire = anneUniversitaire;
-    }
-
-    public void setEstValide(boolean estValide) {
+    public Reservation(Date anneeUniversitaire, boolean estValide) {
+        this.anneeUniversitaire = anneeUniversitaire;
         this.estValide = estValide;
     }
 
-    public void setIdReservation(long idReservation) {
-        this.idReservation = idReservation;
-    }
+
 }

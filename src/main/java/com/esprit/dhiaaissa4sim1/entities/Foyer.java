@@ -1,43 +1,36 @@
 package com.esprit.dhiaaissa4sim1.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.*;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
-import java.io.Serializable;
+import java.util.List;
 
+@Slf4j
+@Service
+@Setter
+@Getter
 @Entity
-public class Foyer implements Serializable {
+@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@EqualsAndHashCode
+@ToString
+public class Foyer {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NonNull
     private long idFoyer;
-    private  String nomfoyer;
+    @NonNull
+    private String nomFoyer;
+    @NonNull
     private long capaciteFoyer;
-    @ManyToOne
-    @JoinColumn(name = "foyer_id")
-    private Foyer foyer;
-    @ManyToOne
-    @JoinColumn(name = "universite_id")
-    private Universite universite;
-    public void setIdFoyer(long idFoyer) {
-        this.idFoyer = idFoyer;
-    }
+    @JsonIgnore
+    @OneToMany(mappedBy = "foyer") // "foyer" fait référence à l'attribut dans la classe Bloc
+    private List<Bloc> blocs;
 
-    public void setNomfoyer(String nomfoyer) {
-        this.nomfoyer = nomfoyer;
-    }
 
-    public void setCapaciteFoyer(long capaciteFoyer) {
-        this.capaciteFoyer = capaciteFoyer;
-    }
-
-    public long getIdFoyer() {
-        return idFoyer;
-    }
-
-    public String getNomfoyer() {
-        return nomfoyer;
-    }
-
-    public long getCapaciteFoyer() {
-        return capaciteFoyer;
-    }
 }

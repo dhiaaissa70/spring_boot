@@ -1,49 +1,48 @@
 package com.esprit.dhiaaissa4sim1.entities;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.*;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
-import java.io.Serializable;
-import java.util.List;
 
+@Slf4j
+@Service
+@Setter
+@Getter
 @Entity
+@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@EqualsAndHashCode
+@ToString
 
-public class Chambre implements Serializable {
+public class Chambre {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-private long idChambre;
-private long numeroChambre;
-@Enumerated(EnumType.STRING)
-private TypeChambre typeC;
+    @NonNull
+    private long idChambre;
+    @NonNull
+    private long numeroChambre;
+    @NonNull
+    @Enumerated(EnumType.STRING)
+    private TypeChambre typeChambre;
 
     @ManyToOne
-    @JoinColumn(name = "idBloc")
+    @JsonIgnore
+    @JoinColumn(name = "idBloc") // Clé étrangère vers la table Bloc
     private Bloc bloc;
 
-    @ManyToMany(mappedBy = "chambres")
-    private List<Etudiant> etudiants;
-
-    public long getIdChambre() {
-        return idChambre;
+    public enum TypeChambre {
+        SIMPLE,
+        DOUBLE,
+        TRIPLE
     }
 
-    public long getNumeroChambre() {
-        return numeroChambre;
-    }
 
-    public TypeChambre getTypeC() {
-        return typeC;
-    }
 
-    public void setIdChambre(long idChambre) {
-        this.idChambre = idChambre;
-    }
 
-    public void setNumeroChambre(long numeroChambre) {
-        this.numeroChambre = numeroChambre;
-    }
-
-    public void setTypeC(TypeChambre typeC) {
-        this.typeC = typeC;
-    }
 }
+
